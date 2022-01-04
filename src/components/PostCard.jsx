@@ -12,13 +12,14 @@ import { auth } from '../libraries/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 export const PostCard = props => {
+  
 
   const { removeItem, removePackage, removeTrip } = useContext(FeedContext);
 
   // console.log(props);
   const location = useLocation();
   // console.log(location.pathname);
-  console.log(props);
+  console.log("Trips props",props);
 
   const [user] = useAuthState(auth);
 
@@ -77,8 +78,19 @@ async function deleteAllTrip(id) {
           <p>
             Contact at: <a href={`mailto:${props.contact}`}> {props.contact} </a>
           </p>
+          <p>Phone number: {props.number}</p>
           <p>Posted by: {props.by}</p>
         </Typography>
+
+        <Typography >
+          <p>
+          Capacity:{props.capacity}
+          </p>
+        </Typography>
+        <Typography >
+        <p>TripDate:{props.date}</p>
+
+        </Typography> 
       </CardContent>
       <CardActions>
         <Button size="small">{new Date().toLocaleDateString()}</Button>

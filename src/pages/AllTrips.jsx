@@ -30,6 +30,8 @@ const AllTrips = () => {
                   title: data[key].title,
                   description: data[key].description,
                   contact: data[key].contact,
+                  capacity:data[key].capacity,
+                  date:data[key].date,
                   by: data[key].by
                 });
               }
@@ -40,7 +42,7 @@ const AllTrips = () => {
             } catch (error) {
               console.error(error);
             }
-          }
+          } 
           getPackages();
     
     }, []);
@@ -56,7 +58,7 @@ const AllTrips = () => {
         <div className='heading_allpkgs'>
             <p >All the universal trips</p> 
             <div className='cards_container'>
-                {trips.map(trip => <PostCard key={trip.id} id={trip.id} url={trip.url} title={trip.title} description={trip.description} contact={trip.contact} by={trip.by}/>)}
+                {trips.map(trip => <PostCard key={trip.id} id={trip.id} url={trip.url} title={trip.title} description={trip.description} contact={trip.contact} by={trip.by} capacity={trip.capacity} date={trip.date} number={trip.number}/>)}
             </div>
     </div>
         </div>

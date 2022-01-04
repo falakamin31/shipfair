@@ -6,6 +6,9 @@ import "../stylesheets/AddTrip.scss";
 import { auth, db } from "../libraries/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Footer from "../components/Footer";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 const AddTrip = () => {
   
@@ -16,10 +19,14 @@ const AddTrip = () => {
   const [DepartureCode, setDepartureCode] = useState("");
   const [ArrivalCode, setArrivalCode] = useState("");
   const [name, setName] = useState('');
+  const [capacity, setCapacity] = useState("");
 
   const [user] = useAuthState(auth);
   const pkgCtx = useContext(FeedContext);
   const cities = ['Lahore', 'Islamabad', 'Karachi', 'Quetta'];
+  const [startDate, setStartDate] = useState(new Date());
+  const [number, setNumber] = useState("")
+
 
   const history = useHistory();
 
@@ -64,10 +71,10 @@ const AddTrip = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     let id = Math.random() * 1000000;
-    pkgCtx.addTrips({ id, title, description, from, to });
+    pkgCtx.addTrips({ id, title, description, from, to, capacity, startDate ,number});
 
-    sendingToFirebaseHandler({ id, title, description, from, to, by:name, contact: user?.email })
-    sendingAllToFirebaseHandler({ id, title, description, from, to, by:name, contact: user?.email })
+    sendingToFirebaseHandler({ id, title, description, from, number, to, by:name, contact: user?.email, date:startDate.toLocaleDateString(), capacity:capacity})
+    sendingAllToFirebaseHandler({ id, title, description, from, to, number, by:name, contact: user?.email, date:startDate.toLocaleDateString(), capacity:capacity })
 
     setTitle("");
     setDescription("");
@@ -162,10 +169,7 @@ const AddTrip = () => {
                 {
                   cities.map(city => <option value={city}>{city}</option>)
                 }
-                {/* // <option value="Lahore">Lahore</option>
-                // <option value="Karachi">Karachi</option>
-                // <option value="Islamabad">Islamabad</option>
-                // <option value="Multan">Multan</option> */}
+               
               </select>
               <label className="trip_input_labels " htmlFor="to">
                 To
@@ -180,13 +184,27 @@ const AddTrip = () => {
                 {
                   cities.filter(city => city!==from).map(city => <option value={city}>{city}</option>)
                 }
-                {/* <option value="Lahore">Lahore</option>
-                <option value="Karachi">Karachi</option>
-                <option value="Islamabad">Islamabad</option>
-                <option value="Multan">Multan</option> */}
+               
               </select>
             </div>
+            <div className="date_picker">
+              <label>When you want to take this trip? Select your desired day:</label>
+          <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} /> 
+            </div>
+            <div>
+            <label htmlFor="">Phone no.:</label>
+            <input type="text" placeholder="e.g: +92300-4579632"  autoComplete="off"
+                value={number}  
+                onChange={(e) => setNumber(e.target.value)}
+                /></div>
           </div>
+          <div>
+            <label htmlFor="">Carrying Capacity</label>
+            <input type="text" placeholder="e.g: 5kg"  autoComplete="off"
+                value={capacity}  
+                onChange={(e) => setCapacity(e.target.value)}
+                /></div>
+          
           <div>
             <button className="button add_trip_submit">Submit</button>
           </div>

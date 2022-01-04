@@ -14,25 +14,6 @@ const useTrips = () => {
 
   useEffect(() => {
 
-
-    // async function updatePkgs (movie) {
-    //     const response = await fetch("https://shipfair-a6766-default-rtdb.firebaseio.com/pkgs.json", {
-    //       method: 'POST',
-    //       body: JSON.stringify(movie),
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       }
-    //     });
-    //     const data = await response.json();
-    //     console.log('sending data')
-    //     console.log(data);
-    //   }
-
-      // updatePkgs(JSON.parse(localStorage.getItem('trips')));
-
-
-
-
     async function getTrips() {
       try {
         const response = await axios.get(
@@ -50,11 +31,14 @@ const useTrips = () => {
               title: data[key].title,
               description: data[key].description,
               contact: data[key].contact,
+              capacity:data[key].capacity,
+              date:data[key].date,
+              number:data[key].number,
               by: data[key].by
             });
           }
         }
-        console.log(pkgs);
+        console.log("My packages",pkgs);
         localStorage.setItem('trips', JSON.stringify(pkgs))
         setTrips(pkgs);
 
